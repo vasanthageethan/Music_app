@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Album App</title>
+</head>
+<body>
+  <h1>Music Album App</h1>
+
+  <form id="albumForm">
+    <input type="text" id="title" placeholder="Title" required><br>
+    <input type="text" id="artist" placeholder="Artist" required><br>
+    <input type="number" id="yearReleased" placeholder="Year Released" required><br>
+    <input type="text" id="genre" placeholder="Genre" required><br>
+    <button type="submit">Add Album</button>
+  </form>
+
+  <div id="albumsList"></div>
+
+  <script>
+    async function fetchAlbums() {
+      const response = await fetch('/api/albums');
+      const albums = await response.json();
+      const albumsList = document.getElementById('albumsList');
+      albumsList.innerHTML = '';
+      albums.forEach(album => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${album[1]}</strong> by ${album[2]}, ${album[3]}, ${album[4]} <button onclick="deleteAlbum(${album[0]})">Delete</button>`;
+        albumsList.appendChild(div);
+      });
+    }
+
+    async function addAlbum(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const artist = document.getElementById('artist').value;
+      const yearReleased = document.getElementById('yearReleased').value;
+      const genre = document.getElementById('genre').value;
+
+      await fetch('/api/albums', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, artist, year_released: yearReleased, genre }),
+      });
+
+      fetchAlbums();
+    }
+
+    async function deleteAlbum(id) {
+      await fetch(`/api/albums/${id}`, {
+        method: 'DELETE',
+      });
+
+      fetchAlbums();
+    }
+
+    document.getElementById('albumForm').addEventListener('submit', addAlbum);
+    fetchAlbums();
+  </script>
+</body>
+</html>

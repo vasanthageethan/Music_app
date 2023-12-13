@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Track</title>
+</head>
+<body>
+    <h1>Update Track</h1>
+<h1>Track Details</h1>
+<form action="/process_update_track" method="post">
+    
+    <label for="new_title">Title:</label>
+    <input type="text" id="new_title" name="new_title" value="{{ track.title }}"><br><br>
+
+    <label for="new_artist">Artist:</label>
+    <input type="text" id="new_artist" name="new_artist" value="{{ track.artist }}"><br><br>
+
+    <label for="new_album">Album:</label>
+    <input type="text" id="new_album" name="new_album" value="{{ track.album }}"><br><br>
+
+    <label for="new_length">Length:</label>
+    <input type="number" id="new_length" name="new_length" value="{{ track.length }}"><br><br>
+
+    <input type="submit" value="Update Track">
+</form>
+</body>
+</html>

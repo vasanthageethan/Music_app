@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Details</title>
+    <style>
+        /* Optional: Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Track Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Length</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for track in tracks:
+                <tr>
+                    <td>{{ track['title'] }}</td>
+                    <td>{{ track['artist'] }}</td>
+                    <td>{{ track['album'] }}</td>
+                    <td>{{ track['length'] }}</td>
+                    <td><a href="/update_track/{{ track['title'] }}">Update</a> |
+                        <form action="/process_delete_track" method="post">
+                            <input type="hidden" name="track_title" value="{{ track['title'] }}">
+                            <input type="submit" value="Delete">
+                        </form></td>
+                </tr>
+            % end
+        </tbody>
+    </table>
+    <a href="/">Back to Main Menu</a>
+</body>
+</html>
