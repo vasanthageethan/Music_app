@@ -33,13 +33,8 @@ with db:
     {"title": "Track 2", "artist": "Artist 2", "album": "Album 2", "length": 200, "year_released":2010},
     {"title": "Track 3", "artist": "Artist 3", "album": "Album 3", "length": 220, "year_released":2005},
 ]
-
-# Populating the Track table with sample data
 for track_data in sample_tracks:
-    # Create or get the Artist instance
-    #artist, _ = Artist.get_or_create(artist_name=track_data['artist'], year_released=2023)
 
-    # Create a Track instance and link it to the Artist
     Track.create(
         title=track_data['title'],
         artist=track_data['artist'],
