@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Artist</title>
+</head>
+<body>
+    <h1>Update Artist</h1>
+<h1>Artist Details</h1>
+<form action="/process_update_artist" method="post">
+    
+    <label for="new_artist">Artist Name:</label>
+    <input type="text" id="new_artist" name="new_artist" value="{{ artist.artist_name }}"><br><br>
+
+    <label for="new_artist_name">New Artist Name:</label>
+    <input type="text" id="new_artist_name" name="new_artist_name" value="{{ artist.artist_name }}"><br><br>
+
+    <label for="new_year_released">Year Released:</label>
+    <input type="number" min="1900" max="2099" id="new_year_released" name="new_year_released" value="{{ artist.year_released }}"><br><br>
+
+    <input type="submit" value="Update Artist">
+</form>
+</body>
+</html>

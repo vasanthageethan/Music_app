@@ -24,6 +24,12 @@
 </head>
 <body>
     <h1>Track Details</h1>
+   
+    <form action="/search_track" method="get">
+        <input type="text" name="query" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+
     <table>
         <thead>
             <tr>
@@ -37,13 +43,13 @@
         <tbody>
             % for track in tracks:
                 <tr>
-                    <td>{{ track['title'] }}</td>
-                    <td>{{ track['artist'] }}</td>
-                    <td>{{ track['album'] }}</td>
-                    <td>{{ track['length'] }}</td>
-                    <td><a href="/update_track/{{ track['title'] }}">Update</a> |
+                    <td>{{ track.title }}</td>
+                    <td>{{ track.artist }}</td>
+                    <td>{{ track.album }}</td>
+                    <td>{{ track.length }}</td>
+                    <td><a href="/update_track/{{ track.title }}">Update</a> |
                         <form action="/process_delete_track" method="post">
-                            <input type="hidden" name="track_title" value="{{ track['title'] }}">
+                            <input type="hidden" name="track_title" value="{{ track.title }}">
                             <input type="submit" value="Delete">
                         </form></td>
                 </tr>

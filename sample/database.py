@@ -29,9 +29,9 @@ with db:
     db.drop_tables([Artist, Track])  # Drop existing tables
     db.create_tables([Artist, Track]) 
     sample_tracks = [
-    {"title": "Track 1", "artist": "Artist 1", "album": "Album 1", "length": 180},
-    {"title": "Track 2", "artist": "Artist 2", "album": "Album 2", "length": 200},
-    {"title": "Track 3", "artist": "Artist 3", "album": "Album 3", "length": 220},
+    {"title": "Track 1", "artist": "Artist 1", "album": "Album 1", "length": 180, "year_released":1999 },
+    {"title": "Track 2", "artist": "Artist 2", "album": "Album 2", "length": 200, "year_released":2010},
+    {"title": "Track 3", "artist": "Artist 3", "album": "Album 3", "length": 220, "year_released":2005},
 ]
 
 # Populating the Track table with sample data
@@ -46,4 +46,5 @@ for track_data in sample_tracks:
         album=track_data['album'],
         length=track_data['length']
     )
+    
     db.close()

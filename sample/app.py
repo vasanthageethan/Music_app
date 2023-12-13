@@ -5,8 +5,6 @@ import setup
 
 app = Bottle()
 
-# Define routes
-
 @app.route('/')
 def index():
     return template('/workspaces/ADSD_web_app/sample/views/index.html')
@@ -14,17 +12,7 @@ def index():
 @app.route('/display_tracks')
 def show_tracks():
     tracks = Track.select()
-    track_list = []
-    if tracks:
-        for track in tracks:
-            track_data = {
-                'title': track.title,
-                'artist': track.artist,
-                'album': track.album,
-                'length': track.length
-            }
-            track_list.append(track_data)
-    return template('/workspaces/ADSD_web_app/sample/views/display_tracks.html', tracks=track_list)
+    return template('/workspaces/ADSD_web_app/sample/views/display_tracks.html', tracks=tracks)
 
 @app.route('/add_track')
 def add_new_track():
@@ -32,7 +20,6 @@ def add_new_track():
 
 @app.route('/process_add_track', method='POST')
 def process_add_track():
-    # Retrieve form data
     title = request.forms.get('title')
     artist = request.forms.get('artist')
     album = request.forms.get('album')
@@ -52,38 +39,63 @@ def update_track(track_title):
 
 @app.route('/process_update_track', method='POST')
 def process_update_track():
-    new_title = request.forms.get('new_title')
-
+   
     try:
-       # track = Track.get(Track.title == new_title)
+        new_title = request.forms.get('new_title')
         new_artist = request.forms.get('new_artist')
         new_album = request.forms.get('new_album')
         new_length = request.forms.get('new_length')
         setup.update_track(new_title=new_title, new_artist=new_artist, new_album=new_album, new_length=new_length)
         return show_tracks()
-        #return redirect('/display_tracks')
-        #print(f"Updated Track {track.track_id}: {track.title} - {track.artist}")
+    
     except Track.DoesNotExist:
         return "Track not found"
     
-
 @app.route('/delete_track')
 def delete_track():
     return redirect('/')
 
 @app.route('/process_delete_track', method='POST')
 def process_delete_track():
-    track_title = request.forms.get('track_title')  # Assuming the form sends the track title to delete
+    track_title = request.forms.get('track_title') 
     
     try:
         setup.delete_track(track_title)
         return show_tracks()
     except Track.DoesNotExist:
         return "Track not found"
-    except Exception as e:
-        return f"An error occurred: {e}"
 
-# Run the app
+@app.route('/display_artists')
+def show_artists(): 
+    artists= Artist.select()
+    return template('/workspaces/ADSD_web_app/sample/views/display_artists.html', artists=artists)
+
+@app.route('/update_artist/<artist_name>')
+def update_artist(artist_name):
+    try:
+        artist=Artist.get(Artist.artist_name==artist_name)
+        return template('/workspaces/ADSD_web_app/sample/views/update_artists.html', artist=artist)
+    except Artist.DoesNotExist:
+        return "Artist not found"
+
+@app.route('/process_update_artist', method='POST')
+def process_update_artist():
+    #artist_name = request.forms.get('artist_name')
+    try:
+        artist_name = request.forms.get('artist_name')
+        new_artist_name = request.forms.get('new_artist_name')
+        new_year_released = request.forms.get('new_year_released')
+        setup.update_artist(artist_name=artist_name, new_artist_name=new_artist_name,new_year_released=new_year_released)
+        return show_artists()
+    except Artist.DoesNotExist:
+        return "Artist not found"
+
+@app.route('/search_track')
+def search_track():
+    search_query = request.query.get('query')
+    tracks = setup.search_track(search_query=search_query)
+    return template('sample/views/display_tracks.html', tracks=tracks)
+
 if __name__ == '__main__':
     db.connect()
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=8000, debug=True)

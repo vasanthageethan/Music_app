@@ -17,7 +17,6 @@ def add_track(title, artist, album, length, artist_name, year_released):
     add_artist(new_track,artist_name, year_released)
     db.close()
     
-
 def update_track( new_title, new_artist=None, new_album=None, new_length=None):
     tracks = Track.select().where(Track.title == new_title)
     try:
@@ -56,7 +55,9 @@ def search_track(search_query):
             print(f"Title: {track.title}, Artist: {track.artist}, Album: {track.album}, Length: {track.length}")
     else:
         print(f"No tracks found matching '{search_query}'")
-    db.close()
+    
+    #db.close()
+    return tracks
 
 def display_artist(id = None):
     if id == None:
@@ -66,7 +67,7 @@ def display_artist(id = None):
     else:
         artist = Artist.select(id)
         print(f"Artist: {artist.artist_name}, Year Released: {artist.year_released}")
-    print(f"Count:{artists.count()}")
+    #print(f"Count:{artists.count()}")
     db.close()
 
 def add_artist(new_track, artist_name,year_released):
@@ -84,18 +85,21 @@ def delete_artist(artist_name):
     display_artist()
     db.close()
 
-def update_artist(artist_name, new_artist_name, year_released= None):
+def update_artist(artist_name, new_artist_name=None, new_year_released= None):
     try:
-        artist = Artist.get(Artist.artist_name == artist_name)
-        if artist_name:
-            artist.artist_name = new_artist_name
-        if year_released:
-            artist.year_released = year_released
-        artist.save()
-        print(f"Artist: {artist.artist_name}, Year Released: {artist.year_released}")
+        artists = Artist.get(Artist.artist_name == artist_name)
+        for artist in artists:
+            if artist_name:
+                artist.artist_name = new_artist_name
+            if new_year_released:
+                artist.year_released = new_year_released
+            artist.save()
+        display_artist()
+        #print(f"Artist: {artist.artist_name}, Year Released: {artist.year_released}")
 
     except Artist.DoesNotExist:
         print(f" Artist does not exist ")
+    
     db.close()
 
 if __name__ == "__main__":
@@ -104,10 +108,10 @@ if __name__ == "__main__":
     add_track("enthiran", "arrw", "enthiran", 180, "arrahman", 2019)
     add_track("vilayadu", "yuvan", "mankatha", 190, "yuvan", 2015)
     add_track("kannathil muthamital", "raja", "mankatha", 190, "raja", 2010)
-    add_track("kannathil muthamital", "raja", "mankatha", 190, "raja", 2010)
+   # add_track("kannathil muthamital", "raja", "mankatha", 190, "raja", 2010)
     add_track("vilayadu", "yuvan", "mankatha", 190, "yuvan", 2015)
     add_track("valayosai", "raja", "movie", 190, "raja", 1999)
-    #update_track("vilayadu","yuvan","mohan",190)
+    update_track("vilayadu","raja","mohan",190)
     #delete_track("enthiran")
     #update_artist("yuvan")
     display_artist()

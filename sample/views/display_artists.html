@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Artist Details</title>
+    <style>
+        /* Optional: Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Artists Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Artist Name</th>
+                <th>Track id</th>
+                <th>Year Released</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for artist in artists:
+                <tr>
+                    <td>{{ artist.artist_name }}</td>
+                    <td>{{ artist.track_id}}</td>
+                    <td>{{ artist.year_released }}</td>
+                    <td><a href="/update_artist/{{ artist.artist_name}}">Update</a> 
+                </tr>
+            % end
+        </tbody>
+    </table>
+    <a href="/">Back to Main Menu</a>
+</body>
+</html>
